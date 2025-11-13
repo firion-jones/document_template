@@ -15,7 +15,7 @@ PANDOC_OPTS = -V geometry:margin=0.75in -V fontsize=9pt -V papersize=a4 \
               --resource-path=.:images:markdown \
               --citeproc \
               --bibliography=references.bib \
-              --csl=harvard-cite-them-right.csl \
+              --csl=ieee.csl \
               -H header.tex \
               --from=markdown+raw_tex \
               -V graphics=true \
@@ -33,13 +33,13 @@ all: $(PDF_FILES)
 # Combined report target
 combined: $(BUILD_DIR)/combined-report.pdf
 
-$(BUILD_DIR)/combined-report.pdf: $(MD_FILES) references.bib harvard-cite-them-right.csl | $(BUILD_DIR)
+$(BUILD_DIR)/combined-report.pdf: $(MD_FILES) references.bib ieee.csl | $(BUILD_DIR)
 	TEXINPUTS="$(TEXINPUTS_PATH)" pandoc $(SRC_DIR)/*.md -o $@ $(PANDOC_OPTS)
 
 # Combined report without table of contents (for submission)
 submission: $(BUILD_DIR)/submission-report.pdf
 
-$(BUILD_DIR)/submission-report.pdf: $(MD_FILES) references.bib harvard-cite-them-right.csl | $(BUILD_DIR)
+$(BUILD_DIR)/submission-report.pdf: $(MD_FILES) references.bib ieee.csl | $(BUILD_DIR)
 	TEXINPUTS="$(TEXINPUTS_PATH)" pandoc $(SRC_DIR)/*.md -o $@ $(PANDOC_OPTS)
 
 # Rule to create build directory if it doesn't exist
@@ -68,5 +68,5 @@ help:
 	@echo ""
 	@echo "Markdown files should be placed in the '$(SRC_DIR)/' directory"
 	@echo "Generated PDFs will be placed in the '$(BUILD_DIR)/' directory"
-	@echo "Citation files needed: references.bib and harvard-cite-them-right.csl"
+	@echo "Citation files needed: references.bib and ieee.csl"
 	@echo "LaTeX includes resolved via TEXINPUTS: $(TEXINPUTS_PATH)"
